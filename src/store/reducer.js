@@ -1,26 +1,44 @@
 const initialState = {
-    counter: 0
+    counter: 0,
+    results: []
 }
 
 const reducer = (state = initialState, action) => {
-    if (action.type === 'INCREMENT') {
+    switch (action.type) {
+        case 'INCREMENT':
+            return {
+                ...state,
+                counter: state.counter + 1
+            }
+        case 'DECREMENT':
+            return {
+                ...state,
+                counter: state.counter - 1
+            }
+        case 'ADD':
+            return {
+                ...state,
+                counter: state.counter + action.value
+            }
+        case 'SUBTRACT':
+            return {
+                ...state,
+                counter: state.counter - action.value
+            }
+        case 'STORE_RESULT':
+            return {
+                // concat intead of push becuse we dont want to mutate the original one.
+                ...state,
+                results: state.results.concat({id: new Date(), value: state.counter})
+            }
+        case 'DELETE_RESULT':
+        // const id = 2;
+        // const newArray = [...state.results];
+        // newArray.splice(id, 1)
+        const updatedArray = state.results.filter((result) => result.id !== action.resultElId)
         return {
-            counter: state.counter + 1
-        }
-    }
-    if (action.type === 'DECREMENT') {
-        return {
-            counter: state.counter - 1
-        }
-    }
-    if (action.type === 'ADD') {
-        return {
-            counter: state.counter + action.value
-        }
-    }
-    if (action.type === 'SUBTRACT') {
-        return {
-            counter: state.counter + action.value
+            ...state,
+            results: updatedArray
         }
     }
     return state;
