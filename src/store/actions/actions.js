@@ -31,12 +31,23 @@ export const subtract = (val) => {
     };
 };
 
-export const storeResult = (result) => {
+// action that will be executted after in code
+export const saveResult = (result) => {
     return {
         type: STORE_RESULT,
         result: result
     };
 };
+
+// for Handling asynchronous code with middleware redux-thunk
+export const storeResult = (result) => {
+    return dispatch => {
+        setTimeout(() => {
+            dispatch(saveResult(result))
+        }, 2000)
+    }
+};
+
 export const deleteResult = (id) => {
     return {
         type: DELETE_RESULT,
